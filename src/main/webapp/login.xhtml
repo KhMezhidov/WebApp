@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Login - Like Hero To Zero</title>
+</h:head>
+
+<h:body style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #ecf0f1;">
+
+    <p:card style="display: flex; width: 350px; text-align: center;">
+        <h2>Wissenschaftler Login</h2>
+
+        <h:form>
+            <p:messages showDetail="true" closable="true" />
+
+            <div style="margin-bottom: 15px;">
+                <p:inputText value="#{loginBean.username}" placeholder="Benutzername" style="width: 100%;"/>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <p:password value="#{loginBean.password}" placeholder="Passwort" toggleMask="true" style="width: 100%;"/>
+            </div>
+
+            <p:button value="Abbrechen" outcome="index.xhtml" styleClass="ui-button-secondary" style="margin-right: 10px;" />
+            <p:commandButton value="Login" action="#{loginBean.doLogin}" update="@form" />
+
+            <p:button value="Noch keinen Account? Registrieren" outcome="register" styleClass="ui-button-flat" style="width: 100%; margin-top: 10px;" />
+
+        </h:form>
+    </p:card>
+
+</h:body>
+</html>

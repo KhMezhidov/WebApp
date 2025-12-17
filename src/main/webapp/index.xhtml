@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+
+<h:head>
+    <title>Like Hero To Zero</title>
+</h:head>
+
+<h:body style="margin: 50px; font-family: sans-serif;">
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h1>Like Hero To Zero</h1>
+
+        <h:form>
+            <p:button value="Login" outcome="login" icon="pi pi-sign-in"
+                      rendered="#{!loginBean.loggedIn}" />
+
+            <p:button value="Zum internen Bereich" outcome="internal" icon="pi pi-cog"
+                      rendered="#{loginBean.loggedIn}" styleClass="ui-button-warning" style="margin-right: 10px;"/>
+
+            <p:commandButton value="Logout" action="#{loginBean.doLogout}" icon="pi pi-sign-out"
+                             rendered="#{loginBean.loggedIn}" styleClass="ui-button-danger"/>
+        </h:form>
+    </div>
+
+    <p:separator />
+    <br/>
+
+    <h3>Öffentliche C02 Daten</h3>
+
+    <h:form id="form">
+        <p:growl id="msgs" showDetail="true"/>
+
+        <p:dataTable var="e" value="#{emissionBean.allEmissions}" stripedRows="true" paginator="true" rows="10">
+            <p:column headerText="Land" sortBy="#{e.country}" filterBy="#{e.country}">
+                <h:outputText value="#{e.country}" />
+            </p:column>
+            <p:column headerText="Jahr" sortBy="#{e.year}">
+                <h:outputText value="#{e.year}" />
+            </p:column>
+            <p:column headerText="CO2 Wert (kt)" sortBy="#{e.value}">
+                <h:outputText value="#{e.value}" />
+            </p:column>
+            <p:column headerText="Quelle">
+                <h:outputText value="#{e.creator.username}" rendered="#{e.creator != null}" />
+                <h:outputText value="World Bank" rendered="#{e.creator == null}" />
+            </p:column>
+        </p:dataTable>
+
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+            <p:commandButton value="Nein" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+            <p:commandButton value="Ja" type="button" styleClass="ui-confirmdialog-yes" />
+        </p:confirmDialog>
+
+    </h:form>
+
+</h:body>
+</html>

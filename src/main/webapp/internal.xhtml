@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="jakarta.faces.core">
+
+<h:head>
+    <title>Interner Bereich - Datenerfassung</title>
+</h:head>
+
+<h:body style="background-color: #f4f4f4; padding: 20px; font-family: sans-serif;">
+
+    <p:card style="max-width: 600px; margin: 0 auto;">
+
+        <br/>
+        <p:separator/>
+
+        <h3 style="text-align: center;">Meine Datensätze verwalten</h3>
+
+        <h:form id="myForm">
+            <p:growl id="msgs" showDetail="true"/>
+
+            <p:dataTable var="e" value="#{emissionBean.myEmissions}"
+                         editable="true" stripedRows="true" paginator="true" rows="5">
+
+                <p:ajax event="rowEdit" listener="#{emissionBean.onRowEdit}" update=":myForm:msgs"/>
+
+                <p:column headerText="Land">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{e.country}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{e.country}" style="width:100%"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Jahr">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{e.year}" /></f:facet>
+                        <f:facet name="input"><p:inputNumber value="#{e.year}" decimalPlaces="0"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="CO2">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{e.value}" /></f:facet>
+                        <f:facet name="input"><p:inputNumber value="#{e.value}" symbol=" kt" symbolPosition="s"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column style="width:6rem">
+                    <p:rowEditor editTitle="Bearbeiten" cancelTitle="Abbrechen" saveTitle="Speichern"/>
+                </p:column>
+
+                <p:column style="width:4rem">
+                    <p:commandButton icon="pi pi-trash" styleClass="ui-button-danger ui-button-flat"
+                                     action="#{emissionBean.delete(e)}" update="@form">
+                        <p:confirm header="Löschen" message="Wirklich löschen?" icon="pi pi-info-circle"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                <p:commandButton value="Nein" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                <p:commandButton value="Ja" type="button" styleClass="ui-confirmdialog-yes" />
+            </p:confirmDialog>
+        </h:form>
+
+        <f:facet name="title">
+            Neuen Datensatz erfassen
+        </f:facet>
+        <f:facet name="subtitle">
+            Angemeldet als: <b>#{loginBean.username}</b>
+        </f:facet>
+
+        <h:form>
+
+            <br/>
+            <p:separator/>
+
+            <h3 style="text-align: center;">Neuen Datensatz erfassen</h3>
+
+            <div class="ui-fluid">
+                <div class="field" style="margin-bottom: 20px;">
+                    <p:outputLabel for="country" value="Land" />
+                    <p:inputText id="country" value="#{emissionBean.newEmission.country}" required="true" />
+                </div>
+
+                <div class="field" style="margin-bottom: 20px;">
+                    <p:outputLabel for="year" value="Jahr" />
+                    <p:inputNumber id="year" value="#{emissionBean.newEmission.year}" decimalPlaces="0" required="true" />
+                </div>
+
+                <div class="field" style="margin-bottom: 20px;">
+                    <p:outputLabel for="value" value="CO2 Ausstoß (kt)" />
+                    <p:inputNumber id="value" value="#{emissionBean.newEmission.value}" symbol=" kt" symbolPosition="s" required="true" />
+                </div>
+
+                <div style="display: flex; justify-content: space-between;">
+                    <p:commandButton value="Speichern" action="#{emissionBean.add}" icon="pi pi-check" />
+
+                    <p:commandButton value="Abmelden" action="#{loginBean.doLogout}"
+                                     styleClass="ui-button-danger ui-button-flat" icon="pi pi-power-off" immediate="true"/>
+                </div>
+            </div>
+            <div class="ui-fluid" style="width: 100%; margin: 15px auto">
+                <p:button value="Zurück zur Hauptseite" outcome="index" icon="pi pi-home" style="width: 100%;" styleClass="ui-button-secondary ui-button-outlined"/>
+            </div>
+        </h:form>
+    </p:card>
+
+</h:body>
+</html>

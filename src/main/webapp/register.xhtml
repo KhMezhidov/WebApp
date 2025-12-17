@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Registrierung</title>
+</h:head>
+
+<h:body style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #ecf0f1;">
+
+    <p:card style="width: 350px; text-align: center;">
+        <h2>Neuen Account erstellen</h2>
+
+        <h:form>
+            <p:messages showDetail="true" closable="true" />
+
+            <div style="margin-bottom: 15px;">
+                <p:inputText value="#{registerBean.newUser.username}" placeholder="Benutzername" required="true" style="width: 100%;"/>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <p:password value="#{registerBean.newUser.password}" placeholder="Passwort" required="true" toggleMask="true" style="width: 100%;"/>
+            </div>
+
+            <p:commandButton value="Registrieren" action="#{registerBean.doRegister}" update="@form" styleClass="ui-button-success" style="width: 100%; margin-bottom: 10px;"/>
+
+            <p:button value="Zurück zum Login" outcome="login" styleClass="ui-button-secondary ui-button-flat" style="width: 100%;" />
+        </h:form>
+    </p:card>
+
+</h:body>
+</html>
