@@ -47,8 +47,6 @@ Das Projekt basiert auf einer modernen **3-Schichten-Architektur (MVC)**:
 
 ## 🚀 Installation & Start
 
-Folgen Sie diesen Schritten, um das Projekt lokal einzurichten:
-
 ### 1. Voraussetzungen
 * Java Development Kit (JDK) 21
 * IntelliJ IDEA (Ultimate empfohlen)
@@ -62,19 +60,19 @@ Folgen Sie diesen Schritten, um das Projekt lokal einzurichten:
     CREATE DATABASE hero_to_zero_db;
     ```
 3.  **WICHTIG (Daten-Import):**
-    * Im Ordner `database/` dieses Repositories finden Sie die Datei `co2_clean.csv`.
+    * Im Ordner `ressources/` dieses Repositories finden Sie die Datei `co2_data.csv`.
     * Importieren Sie diese Datei (z. B. via MySQL Workbench "Table Data Import Wizard") in die Tabelle `emissions`.
     * *Mapping:* `country` -> `country`, `year` -> `year`, `co2` -> `co2_value`.
 
 ### 3. Server konfigurieren (IntelliJ)
-* Öffnen Sie das Projekt als Maven-Projekt.
-* Erstellen Sie eine neue "TomEE Server" Run-Configuration.
-* Fügen Sie im Reiter "Deployment" das Artefakt `Projektarbeit:war exploded` hinzu.
-* Setzen Sie den "Application Context" auf `/Projektarbeit`.
+* Das Projekt als Maven-Projekt öffnen.
+* Eine neue "TomEE Server" Run-Configuration erstellen.
+* Im Reiter "Deployment" das Artefakt `Projektarbeit:war exploded` hinzufügen.
+* Den "Application Context" auf `/Projektarbeit`setzen.
 
 ### 4. Starten
-* Starten Sie den Server.
-* Rufen Sie die URL auf: `http://localhost:8080/Projektarbeit/`
+* Den Server starten.
+* Folgende URL aufrufen: `http://localhost:8080/Projektarbeit/`
 
 ---
 
@@ -88,9 +86,9 @@ Beinhaltet die CO2-Werte.
 * **Unterscheidung:** Importierte Daten haben `creator_id = NULL`.
 
 ### 2. `users` (Benutzer)
-Verwaltet die Zugangsdaten der Wissenschaftler.
+Verwaltet die Zugangsdaten der Benutzer.
 * **Spalten:** `id` (Auto-Increment), `username`, `password`.
-* **Hinweis:** Diese Tabelle wird beim ersten Start durch Hibernate automatisch erstellt (wenn in `persistence.xml` konfiguriert). Sie ist initial leer. Bitte nutzen Sie die **Registrieren-Funktion** auf der Login-Seite, um einen ersten Benutzer anzulegen.
+* **Hinweis:** Diese Tabelle wird beim ersten Start durch Hibernate automatisch erstellt (wenn in `persistence.xml` konfiguriert). Sie ist initial leer. Bitte die **Registrieren-Funktion** auf der Login-Seite nutzen, um einen ersten Benutzer anzulegen.
 
 ---
 
