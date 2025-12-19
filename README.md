@@ -94,14 +94,17 @@ Verwaltet die Zugangsdaten der Benutzer.
 
 ## 📸 Screenshots
 
-### Startseite (Öffentlicher Bereich)
-![Startseite](screenshots/startseite.png)
+### Startseite
+![Startseite](resources/Startseite.png)
 
 ### Login
-![Login Screen](screenshots/login.png)
+![Login Screen](resources/Login.png)
 
 ### Interner Bereich (Datenverwaltung & Inline-Editing)
-![Interner Bereich](screenshots/internal.png)
+![Interner Bereich](resources/Interner-Bereich.png)
 
-### Datenbank (Beweis des Datenbestands)
-![Datenbank Ansicht](screenshots/database_emissions.png)
+### Datenbank 
+![Datenbank Ansicht](resources/database_emissions.png)
+
+### Sign Up 
+![Sign Up Screen](resources/SignUp.png)
