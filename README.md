@@ -1,39 +1,109 @@
 # Like Hero To Zero - CO2 Emissions Manager
-Enterprise Webanwendung
 
-## Technologien
-* **Frontend:** Jakarta Server Faces (JSF 4.0), PrimeFaces 14
-* **Backend:** Java Enterprise (CDI, Managed Beans)
-* **Datenbank:** MySQL, Hibernate (JPA)
-* **Server:** Apache TomEE
+Eine Enterprise Webanwendung zur Verwaltung und Analyse von weltweiten CO2-Emissionsdaten. Entwickelt als Fallstudie im Modul Software Engineering.
 
-## Features
-* Anzeige weltweiter Emissionsdaten (World Bank Import).
-* Login-System für Wissenschaftler (Session Management).
-* CRUD-Funktionalität (Erstellen, Lesen, Bearbeiten, Löschen) im internen Bereich.
-* Inline-Editing in Datentabellen.
+Die Anwendung ermöglicht es, öffentliche Emissionsdaten einzusehen und bietet Wissenschaftlern einen geschützten Bereich, um eigene Daten zu erfassen und zu verwalten.
 
-* ## Installation & Start
+---
 
-Um das Projekt lokal auszuführen:
+## 📊 Datenquelle & Lizenz
 
-1.  **Voraussetzungen:**
-    * JDK 21
-    * Apache TomEE 10 (Plume/Plus)
-    * MySQL Server 8.4
+Die in diesem Projekt verwendeten CO2-Emissionsdaten stammen aus dem Repository von **Our World in Data** (OWID).
 
-2.  **Datenbank einrichten:**
-    * MySQL starten.
-    * Eine leere Datenbank anlegen: `CREATE DATABASE hero_to_zero_db;`
-    * (Optional) Benutzer/Passwort in der Server-Config (`tomee.xml`) entsprechend anpassen.
+* **Datensatz:** Data on CO2 and greenhouse gas emissions
+* **Hauptquelle:** Global Carbon Project (GCP) & Jones et al.
+* **Autoren:** Pablo Rosado, Hannah Ritchie, Max Roser, Edouard Mathieu, Bobbie Macdonald
+* **Lizenz:** Creative Commons Attribution 4.0 (CC-BY 4.0)
+* **URL:** [https://github.com/owid/co2-data](https://github.com/owid/co2-data)
 
-3.  **Projekt starten:**
-    * Repository klonen oder herunterladen.
-    * In IntelliJ IDEA öffnen.
-    * `pom.xml` als Maven-Projekt laden.
-    * Server-Konfiguration (TomEE) erstellen und Artefakt `Projektarbeit:war exploded` hinzufügen.
-    * Server starten.
+---
 
-4.  **Login:**
-    * URL: `http://localhost:8080/Projektarbeit/`
-    * Beim ersten Start: Über "Registrieren" einen neuen Benutzer anlegen.
+## 🛠 Technologien
+
+Das Projekt basiert auf einer modernen **3-Schichten-Architektur (MVC)**:
+
+* **Frontend:** Jakarta Server Faces (JSF 4.0), PrimeFaces 14.0
+* **Backend:** Jakarta EE (CDI, Managed Beans), Java 21
+* **Datenbank:** MySQL 8.4, Hibernate (JPA)
+* **Server:** Apache TomEE 10 (Plume/Plus)
+* **Build Tool:** Maven
+
+---
+
+## ✨ Features
+
+* **Öffentlicher Bereich:**
+    * Anzeige von tausenden Emissionsdatensätzen (Importiert von Our World in Data).
+    * Filterung und Sortierung der Daten in Echtzeit.
+* **Interner Bereich (für Wissenschaftler):**
+    * Sicherer Login & Logout (Session Management).
+    * **CRUD-Funktionalität:** Erstellen, Lesen, Aktualisieren und Löschen eigener Datensätze.
+    * **Inline-Editing:** Bearbeitung von Werten direkt in der Datentabelle.
+    * Automatische Zuordnung: Neue Datensätze werden dem eingeloggten Nutzer zugewiesen.
+* **Benutzerverwaltung:**
+    * Registrierung neuer Nutzer über die Oberfläche.
+
+---
+
+## 🚀 Installation & Start
+
+Folgen Sie diesen Schritten, um das Projekt lokal einzurichten:
+
+### 1. Voraussetzungen
+* Java Development Kit (JDK) 21
+* IntelliJ IDEA (Ultimate empfohlen)
+* MySQL Server
+* Apache TomEE 10
+
+### 2. Datenbank einrichten
+1.  Starten Sie Ihren MySQL Server.
+2.  Erstellen Sie eine leere Datenbank:
+    ```sql
+    CREATE DATABASE hero_to_zero_db;
+    ```
+3.  **WICHTIG (Daten-Import):**
+    * Im Ordner `database/` dieses Repositories finden Sie die Datei `co2_clean.csv`.
+    * Importieren Sie diese Datei (z. B. via MySQL Workbench "Table Data Import Wizard") in die Tabelle `emissions`.
+    * *Mapping:* `country` -> `country`, `year` -> `year`, `co2` -> `co2_value`.
+
+### 3. Server konfigurieren (IntelliJ)
+* Öffnen Sie das Projekt als Maven-Projekt.
+* Erstellen Sie eine neue "TomEE Server" Run-Configuration.
+* Fügen Sie im Reiter "Deployment" das Artefakt `Projektarbeit:war exploded` hinzu.
+* Setzen Sie den "Application Context" auf `/Projektarbeit`.
+
+### 4. Starten
+* Starten Sie den Server.
+* Rufen Sie die URL auf: `http://localhost:8080/Projektarbeit/`
+
+---
+
+## 🗄 Datenbank Struktur
+
+Die Anwendung nutzt zwei zentrale Tabellen:
+
+### 1. `emissions` (Emissionsdaten)
+Beinhaltet die CO2-Werte.
+* **Quellen:** Our World in Data (Import) und User-Eingaben.
+* **Unterscheidung:** Importierte Daten haben `creator_id = NULL`.
+
+### 2. `users` (Benutzer)
+Verwaltet die Zugangsdaten der Wissenschaftler.
+* **Spalten:** `id` (Auto-Increment), `username`, `password`.
+* **Hinweis:** Diese Tabelle wird beim ersten Start durch Hibernate automatisch erstellt (wenn in `persistence.xml` konfiguriert). Sie ist initial leer. Bitte nutzen Sie die **Registrieren-Funktion** auf der Login-Seite, um einen ersten Benutzer anzulegen.
+
+---
+
+## 📸 Screenshots
+
+### Startseite (Öffentlicher Bereich)
+![Startseite](screenshots/startseite.png)
+
+### Login
+![Login Screen](screenshots/login.png)
+
+### Interner Bereich (Datenverwaltung & Inline-Editing)
+![Interner Bereich](screenshots/internal.png)
+
+### Datenbank (Beweis des Datenbestands)
+![Datenbank Ansicht](screenshots/database_emissions.png)
