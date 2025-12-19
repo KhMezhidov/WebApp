@@ -2,7 +2,7 @@
 
 Eine Enterprise Webanwendung zur Verwaltung und Analyse von weltweiten CO2-Emissionsdaten. Entwickelt als Fallstudie im Modul Software Engineering.
 
-Die Anwendung ermöglicht es, öffentliche Emissionsdaten einzusehen und bietet Wissenschaftlern einen geschützten Bereich, um eigene Daten zu erfassen und zu verwalten.
+Die Anwendung ermöglicht es, öffentliche Emissionsdaten einzusehen und bietet den Nutern einen geschützten Bereich, um eigene Daten zu erfassen und zu verwalten.
 
 ---
 
