@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 @Entity
 
-@Table(name = "emissions")//Tabellenname
+@Table(name = "co2_data")//Tabellenname
 public class EmissionData implements Serializable {
     @Id //Primärschlüssel
     @GeneratedValue(strategy = GenerationType.IDENTITY) //Auto-Increment

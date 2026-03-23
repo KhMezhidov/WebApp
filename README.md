@@ -49,30 +49,51 @@ Das Projekt basiert auf einer modernen **3-Schichten-Architektur (MVC)**:
 
 ### 1. Voraussetzungen
 * Java Development Kit (JDK) 21
-* IntelliJ IDEA (Ultimate empfohlen)
-* MySQL Server
-* Apache TomEE 10
+* IntelliJ IDEA (Ultimate Edition empfohlen für Java-EE-Support)
+* MySQL Server (Community Edition) & MySQL Workbench
+* Apache TomCat 10.x (Jakarta-EE-kompatible)
 
-### 2. Datenbank einrichten
-1.  Starten Sie Ihren MySQL Server.
-2.  Erstellen Sie eine leere Datenbank:
+### 2. Datenbank-Initialisierung
+1.  Schema erstellen: Öffnen Sie die MySQL Workbench und führen Sie folgenden Befehl aus:
     ```sql
-    CREATE DATABASE hero_to_zero_db;
+       * CREATE DATABASE IF NOT EXISTS hero_to_zero_db;
+       * USE hero_to_zero_db;
     ```
-3.  **WICHTIG (Daten-Import):**
-    * Im Ordner `ressources/` dieses Repositories finden Sie die Datei `co2_data.csv`.
-    * Importieren Sie diese Datei (z. B. via MySQL Workbench "Table Data Import Wizard") in die Tabelle `emissions`.
-    * *Mapping:* `country` -> `country`, `year` -> `year`, `co2` -> `co2_value`.
+2.  CSV-Datei importieren:
+   * Rechtsklick auf das Schema `hero_to_zero_db` -> **Table Data Import Wizard**.
+   * Wählen Sie die CSV-Datei aus dem Ordner `/src/main/ressources` aus.
+   * Wählen Sie **"Create new table"** und nenne Sie diese co2_data.
+   * **Wichtiges Mapping:** Achten Sie darauf, dass die Spalte co2 als Datentyp **double** oder **decimal** (nicht text!) erkannt wird.
+   * Stellen Sie das Encoding auf **UTF-8** und schließen Sie den Import ab.
 
-### 3. Server konfigurieren (IntelliJ)
-* Das Projekt als Maven-Projekt öffnen.
-* Eine neue "TomEE Server" Run-Configuration erstellen.
-* Im Reiter "Deployment" das Artefakt `Projektarbeit:war exploded` hinzufügen.
-* Den "Application Context" auf `/Projektarbeit`setzen.
+3.  **Server-Konfiguration (JNDI)**
+   * Das Projekt nutzt eine JTA-Datenquelle mit dem Namen mysqlDS. Diese Ressource muss im Tomcat-Server definiert werden, damit die `persisitence.xml` die Verbindung herstellen kann.
+     * Öfnnen Sie die Datei `context.xml` Ihres Tomcats (entweder im globalen `/conf`-Ordner oder direkt in der IntelliJ-Run-Configuration).
+     * Fügen Sie das folgende `<Ressource>`-Tag innerhalb des `<Context>`-Blocks ein:
+     ``` xml
+     <Resource name="jdbc/mysqlDS" 
+          auth="Container" 
+          type="javax.sql.DataSource" 
+          driverClassName="com.mysql.cj.jdbc.Driver"
+          url="jdbc:mysql://localhost:3306/hero_to_zero_db"
+          username="IHR_NUTZERNAME" 
+          password="IHR_PASSWORT" 
+          maxTotal="20" maxIdle="10" />
+     ```
+     
 
-### 4. Starten
-* Den Server starten.
-* Folgende URL aufrufen: `http://localhost:8080/Projektarbeit/`
+### 4. IntelliJ & Deployment-Setup
+* **Projekt öffnen:** Importieren Sie das Repository als Maven-Projekt.
+* **Run-Konfiguration erstellen:**
+  * Erstellen Sie eine neue **TomCat Server (Local)** Konfiguration.
+  * Im Tab **Deployment:** Klicken Sie auf das **"+"** Artifact und wählen Sie `WebApp:war exploded`aus.
+  * Setzen Sie den **Application context** auf `/WebApp_war_exploded`.
+* **Hinweis zu Hibernate:** Die Einstellung `hibernate.hbm2ddl.auto` steht auf `update`. Dadurch werden zusätzliche Tabellen (wie die `users`-Tabelle) beim ersten Start automatisch erstellt, ohne Ihre importierten CO2-Daten zu löschen.
+
+### 5. Starten der Applikation
+* Starten Sie den Tomcat-Server über den **Run**-Button in IntelliJ.
+* Die App ist erreichbar unter `http://localhost:8080/WebApp_war_exploded`
+* Die SQL-Logs können in der IntelliJ-Konsole verfolgt werden (aktiviert via `hibernate.show_sql`)
 
 ---
 
