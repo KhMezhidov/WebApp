@@ -25,7 +25,7 @@ Das Projekt basiert auf einer modernen **3-Schichten-Architektur (MVC)**:
 * **Frontend:** Jakarta Server Faces (JSF 4.0), PrimeFaces 14.0
 * **Backend:** Jakarta EE (CDI, Managed Beans), Java 21
 * **Datenbank:** MySQL 8.4, Hibernate (JPA)
-* **Server:** Apache TomEE 10 (Plume/Plus)
+* **Server:** Apache TomEE 10 (Webprofile)
 * **Build Tool:** Maven
 
 ---
