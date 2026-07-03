@@ -1,0 +1,9 @@
+<resources>
+    <Resource id="mysqlDS" type="DataSource">
+        JdbcDriver  com.mysql.cj.jdbc.Driver
+        JdbcUrl     jdbc:mysql://db:3306/hero_to_zero_db?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC
+        UserName    hero
+        Password    hero_password
+        JtaManaged  true
+    </Resource>
+</resources>
